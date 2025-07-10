@@ -28,15 +28,16 @@ from agents.predict_category_agent import predict_category
 # ===== Load Sample Dataset =====
 
 
-
 def load_sample_chats():
-    # Go to repo root from /pages/app.py
+    # Correct path resolution
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.normpath(os.path.join(current_dir, "..", "data", "sample_chats.txt"))
 
+    # Read plain text file
     with open(data_path, "r", encoding="utf-8") as file:
         raw_data = file.read().strip()
 
+    # Split into conversations
     conversations = re.split(r"\n-{3,}\n", raw_data)
     chat_list = []
 
@@ -53,8 +54,6 @@ def load_sample_chats():
             chat_list.append({"id": display_id, "chat": conv})
 
     return chat_list
-
-
 # ===== Load Chats =====
 sample_chats = load_sample_chats()
 sample_ids = ["None"] + [chat["id"] for chat in sample_chats]
