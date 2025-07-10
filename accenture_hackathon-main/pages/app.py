@@ -29,15 +29,14 @@ from agents.predict_category_agent import predict_category
 
 
 def load_sample_chats():
-    # Correct path resolution
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.normpath(os.path.join(current_dir, "..", "data", "sample_chats.txt"))
+    # This resolves the correct path to sample_chats.txt from pages/app.py
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # /pages
+    file_path = os.path.join(base_dir, "..", "data", "sample_chats.txt")
+    file_path = os.path.normpath(file_path)  # cleans up any ../
 
-    # Read plain text file
-    with open(data_path, "r", encoding="utf-8") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         raw_data = file.read().strip()
 
-    # Split into conversations
     conversations = re.split(r"\n-{3,}\n", raw_data)
     chat_list = []
 
@@ -54,6 +53,7 @@ def load_sample_chats():
             chat_list.append({"id": display_id, "chat": conv})
 
     return chat_list
+
 # ===== Load Chats =====
 sample_chats = load_sample_chats()
 sample_ids = ["None"] + [chat["id"] for chat in sample_chats]
