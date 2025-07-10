@@ -2,6 +2,7 @@ import streamlit as st
 import re
 import sqlite3
 import pandas as pd
+import os
 
 # ===== Page Setup =====
 st.set_page_config(page_title="AI Assistant", layout="wide", initial_sidebar_state="collapsed")
@@ -25,9 +26,12 @@ from agents.time_estimator_agent import estimate_resolution_time
 from agents.predict_category_agent import predict_category
 
 # ===== Load Sample Dataset =====
+
+
 def load_sample_chats():
-    with open("data/sample_chats.txt", "r", encoding="utf-8") as file:
-        raw_data = file.read().strip()
+    data_path = os.path.join(os.path.dirname(__file__), "..", "data", "sample_chats.txt")
+    with open(data_path, "r", encoding="utf-8") as file:
+        return file.read()
 
     conversations = re.split(r"\n-{3,}\n", raw_data)
     chat_list = []
