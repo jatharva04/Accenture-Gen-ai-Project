@@ -30,17 +30,23 @@ from agents.predict_category_agent import predict_category
 
 
 
+
+
+
 def load_sample_chats():
     data_path = os.path.join(os.path.dirname(__file__), "..", "data", "sample_chats.txt")
-    with open(data_path, "r", encoding="utf-8") as file:
-        return json.load(file)  # Load as list of dicts
 
+    with open(data_path, "r", encoding="utf-8") as file:
+        raw_data = file.read()
+
+    # Split by separator (---)
     conversations = re.split(r"\n-{3,}\n", raw_data)
     chat_list = []
 
     for conv in conversations:
         conv = conv.strip()
         if conv:
+            # Extract title and ID
             match = re.search(r"^(.*?)\nConversation ID:\s*(TECH_\d+)", conv, re.DOTALL)
             if match:
                 title = match.group(1).strip()
@@ -51,6 +57,7 @@ def load_sample_chats():
             chat_list.append({"id": display_id, "chat": conv})
 
     return chat_list
+
 
 # ===== Load Chats =====
 sample_chats = load_sample_chats()
