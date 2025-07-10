@@ -3,6 +3,7 @@ import re
 import sqlite3
 import pandas as pd
 import os
+import json
 
 # ===== Page Setup =====
 st.set_page_config(page_title="AI Assistant", layout="wide", initial_sidebar_state="collapsed")
@@ -28,10 +29,11 @@ from agents.predict_category_agent import predict_category
 # ===== Load Sample Dataset =====
 
 
+
 def load_sample_chats():
     data_path = os.path.join(os.path.dirname(__file__), "..", "data", "sample_chats.txt")
     with open(data_path, "r", encoding="utf-8") as file:
-        return file.read()
+        return json.load(file)  # Load as list of dicts
 
     conversations = re.split(r"\n-{3,}\n", raw_data)
     chat_list = []
